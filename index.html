@@ -1623,5 +1623,41 @@
       });
     })();
   </script>
+
+  <!-- Supabase JS -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.32.0/dist/supabase.min.js"></script>
+
+<script>
+  // 🔹 Créer le client Supabase
+  const supabaseUrl = 'https://TON_PROJET.supabase.co'; // remplace par ton URL Supabase
+  const supabaseKey = 'TA_CLEF_ANONYM'; // remplace par ta clé "anon"
+  const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+  // 🔹 Fonction pour envoyer les messages du formulaire
+  async function envoyerMessage(e) {
+    e.preventDefault();
+
+    const nom = document.getElementById('nom').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+
+    const { data, error } = await supabase
+      .from('contacts')
+      .insert([{ nom, email, message }]);
+
+    if (error) {
+      alert('Erreur : ' + error.message);
+    } else {
+      alert('Message envoyé !');
+      document.getElementById('formContact').reset();
+    }
+  }
+
+  // 🔹 Associer la fonction au formulaire
+  const formContact = document.getElementById('formContact');
+  if (formContact) {
+    formContact.addEventListener('submit', envoyerMessage);
+  }
+</script>
 </body>
 </html>
